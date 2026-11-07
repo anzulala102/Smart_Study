@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SmartStudy</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- ================= AUTH SCREEN ================= -->
+<div id="auth-screen">
+  <div class="auth-card">
+    <div class="auth-brand">SmartStudy</div>
+    <div class="auth-sub" id="auth-sub">Smart study planner &amp; assignment tracker</div>
+    <div class="auth-error" id="auth-error"></div>
+
+    <form id="login-form">
+      <div class="field">
+        <label>Email</label>
+        <input type="email" id="login-email" placeholder="you@university.edu" required />
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" id="login-password" placeholder="••••••••" required />
+      </div>
+      <button type="submit" class="btn-primary">Log in</button>
+    </form>
+
+    <form id="register-form" style="display:none;">
+      <div class="field">
+        <label>Full name</label>
+        <input type="text" id="reg-name" placeholder="Your name" required />
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input type="email" id="reg-email" placeholder="you@university.edu" required />
+      </div>
+      <div class="field">
+        <label>Student ID (optional)</label>
+        <input type="text" id="reg-student-id" placeholder="Your student ID" />
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" id="reg-password" placeholder="At least 8 characters" required minlength="8" />
+      </div>
+      <button type="submit" class="btn-primary">Create account</button>
+    </form>
+
+    <div class="auth-toggle">
+      <span id="toggle-to-register">New here? <a>Create an account</a></span>
+      <span id="toggle-to-login" style="display:none;">Already registered? <a>Log in</a></span>
+    </div>
+  </div>
+</div>
+
+<!-- ================= APP SCREEN ================= -->
+<div id="app-screen">
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="sidebar-brand">SmartStudy</div>
+      <div class="sidebar-team">The Locals</div>
+      <div style="padding:8px 18px;font-size:12px;"><a href="/admin.html">Administrator sign-in</a></div>
+      <nav>
+        <button class="nav-item active" data-view="dashboard">📊 &nbsp;Dashboard</button>
+        <button class="nav-item" data-view="courses">📚 &nbsp;Courses</button>
+        <button class="nav-item" data-view="tasks">✅ &nbsp;Tasks</button>
+        <button class="nav-item" data-view="profile">👤 &nbsp;Profile</button>
+      </nav>
+      <div class="sidebar-footer">
+        Web Programming Lab<br />Batch 59 · Section C
+        <div class="sidebar-user">
+          <span id="sidebar-user-name">—</span>
+          <span class="logout-link" id="logout-btn">Log out</span>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+
+      <!-- DASHBOARD -->
+      <section class="view active" id="view-dashboard">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Dashboard</h1>
+            <div class="page-sub">Here's what needs your attention.</div>
+          </div>
+        </div>
+
+        <div class="stat-grid">
+          <div class="stat-card"><div class="stat-label">Courses</div><div class="stat-value" id="stat-courses">0</div></div>
+          <div class="stat-card"><div class="stat-label">Pending</div><div class="stat-value" id="stat-pending">0</div></div>
+          <div class="stat-card"><div class="stat-label">Completed</div><div class="stat-value" id="stat-completed" style="color:var(--low)">0</div></div>
+          <div class="stat-card"><div class="stat-label">High priority</div><div class="stat-value" id="stat-high" style="color:var(--high)">0</div></div>
+          <div class="stat-card"><div class="stat-label">Due within 3d</div><div class="stat-value" id="stat-upcoming" style="color:var(--medium)">0</div></div>
+        </div>
+
+        <div class="section-label">
+          <h2>Coming up</h2>
+          <a data-goto="tasks">View all tasks →</a>
+        </div>
+        <div id="deadline-strip-wrap"></div>
+        <div class="section-label reminder-heading">
+          <h2>Reminders</h2>
+        </div>
+        <div id="reminder-list"></div>
+      </section>
+
+      <!-- COURSES -->
+      <section class="view" id="view-courses">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Courses</h1>
+            <div class="page-sub">Manage the courses you're tracking tasks for.</div>
+          </div>
+          <button class="btn-add" id="open-course-form">+ Add course</button>
+        </div>
+        <div class="course-grid" id="course-grid"></div>
+      </section>
+
+      <!-- TASKS -->
+      <section class="view" id="view-tasks">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Tasks</h1>
+            <div class="page-sub" id="task-count-sub">0 total · click status to update</div>
+          </div>
+          <button class="btn-add" id="open-task-form">+ New task</button>
+        </div>
+
+        <div class="filter-bar">
+          <div class="search-box">
+            🔍 <input type="text" id="task-search" placeholder="Search tasks" />
+          </div>
+          <select class="filter-select" id="filter-priority">
+            <option>All</option><option>High</option><option>Medium</option><option>Low</option>
+          </select>
+          <select class="filter-select" id="filter-status">
+            <option>All</option><option>Pending</option><option>In Progress</option><option>Completed</option>
+          </select>
+        </div>
+
+        <div id="task-list"></div>
+      </section>
+
+      <!-- PROFILE -->
+      <section class="view" id="view-profile">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Profile</h1>
+            <div class="page-sub">Your account information.</div>
+          </div>
+        </div>
+        <div class="profile-card">
+          <div class="field">
+            <label>Full name</label>
+            <input type="text" id="profile-name" />
+          </div>
+          <div class="field">
+            <label>Email</label>
+            <input type="email" id="profile-email" disabled style="background:#F7F5F0;color:var(--muted);" />
+          </div>
+          <button class="btn-primary" id="save-profile-btn" style="width:auto;padding:9px 18px;">Save changes</button>
+          <div id="profile-saved-msg" style="display:none;font-size:12.5px;color:var(--low);margin-top:10px;">Saved.</div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<!-- ================= TASK MODAL ================= -->
+<div class="modal-overlay" id="task-modal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3>New task</h3>
+      <button class="modal-close" data-close="task-modal">✕</button>
+    </div>
+    <form id="task-form">
+      <div class="field">
+        <label>Title</label>
+        <input type="text" id="task-title" placeholder="e.g. Database schema draft" required />
+      </div>
+      <div class="field">
+        <label>Course</label>
+        <select id="task-course" required></select>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Priority</label>
+          <select id="task-priority">
+            <option>High</option><option selected>Medium</option><option>Low</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Deadline</label>
+          <input type="date" id="task-deadline" required />
+        </div>
+      </div>
+      <button type="submit" class="btn-primary">Add task</button>
+    </form>
+  </div>
+</div>
+
+<!-- ================= COURSE MODAL ================= -->
+<div class="modal-overlay" id="course-modal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3>Add course</h3>
+      <button class="modal-close" data-close="course-modal">✕</button>
+    </div>
+    <form id="course-form">
+      <div class="field">
+        <label>Course code</label>
+        <input type="text" id="course-code" placeholder="e.g. CSE311" required />
+      </div>
+      <div class="field">
+        <label>Course name</label>
+        <input type="text" id="course-name" placeholder="e.g. Web Programming Lab" required />
+      </div>
+      <div class="field">
+        <label>Color tag</label>
+        <div class="color-row" id="color-row"></div>
+      </div>
+      <button type="submit" class="btn-primary">Add course</button>
+    </form>
+  </div>
+</div>
+
+<!-- ================= SUBMISSION MODAL ================= -->
+<div class="modal-overlay" id="submission-modal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3>Submit assignment</h3>
+      <button class="modal-close" data-close="submission-modal">✕</button>
+    </div>
+    <form id="submission-form">
+      <p class="form-context" id="submission-assignment-title"></p>
+      <div class="field">
+        <label>Submission URL (optional)</label>
+        <input type="url" id="submission-url" placeholder="https://..." />
+      </div>
+      <div class="field">
+        <label>Text or notes (optional)</label>
+        <textarea id="submission-text" rows="5" placeholder="Add your submission text or a note"></textarea>
+      </div>
+      <button type="submit" class="btn-primary">Submit work</button>
+    </form>
+  </div>
+</div>
+
+<!-- ================= REMINDER MODAL ================= -->
+<div class="modal-overlay" id="reminder-modal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3>Schedule reminder</h3>
+      <button class="modal-close" data-close="reminder-modal">✕</button>
+    </div>
+    <form id="reminder-form">
+      <p class="form-context" id="reminder-assignment-title"></p>
+      <div class="field">
+        <label>Remind me at</label>
+        <input type="datetime-local" id="reminder-time" required />
+      </div>
+      <div class="field">
+        <label>Message</label>
+        <input type="text" id="reminder-message" maxlength="240" value="Assignment deadline approaching" />
+      </div>
+      <button type="submit" class="btn-primary">Save reminder</button>
+    </form>
+  </div>
+</div>
+
+<!-- Data layer must load first — everything else attaches to the
+     shared `App` namespace it creates. -->
+<script src="js/data.js"></script>
+<script src="js/modals.js"></script>
+<script src="js/dashboard.js"></script>
+<script src="js/courses.js"></script>
+<script src="js/tasks.js"></script>
+<script src="js/profile.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,159 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1900" height="1380" viewBox="0 0 1900 1380" role="img" aria-labelledby="title description">
+  <title id="title">SmartStudy database schema and entity relationships</title>
+  <desc id="description">Five MongoDB collections and their references: Student, Course, Assignment, Submission, and Reminder.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f8fafc"/>
+      <stop offset="1" stop-color="#edf3f1"/>
+    </linearGradient>
+    <filter id="shadow" x="-15%" y="-15%" width="130%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#15213a" flood-opacity=".11"/>
+    </filter>
+    <marker id="arrow" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto">
+      <path d="M1 1L10 5.5L1 10Z" fill="#728895"/>
+    </marker>
+    <style>
+      text{font-family:Arial,Helvetica,sans-serif;fill:#1b2340}
+      .title{font-size:38px;font-weight:700}
+      .subtitle{font-size:18px;fill:#667085}
+      .card{filter:url(#shadow);fill:#fff;stroke:#d9e2e3;stroke-width:2}
+      .head{fill:#24345b}
+      .head-green{fill:#426d5d}
+      .head-gold{fill:#96743d}
+      .head-blue{fill:#526c8d}
+      .entity{font-size:22px;font-weight:700;fill:#fff}
+      .collection{font-size:14px;fill:#dce4ef}
+      .field{font:16px Consolas,'Courier New',monospace;fill:#26334c}
+      .key{font:700 12px Arial,Helvetica,sans-serif;fill:#fff}
+      .field-line{stroke:#edf0f1;stroke-width:1}
+      .rel{fill:none;stroke:#728895;stroke-width:2.7;marker-end:url(#arrow)}
+      .rel-label{font-size:14px;font-weight:700;fill:#52657a}
+      .legend{font-size:14px;fill:#596779}
+      .badge{fill:#e9f1ee}
+      .badge-text{font-size:13px;font-weight:700;fill:#426b5d}
+    </style>
+  </defs>
+  <rect width="1900" height="1380" rx="26" fill="url(#bg)"/>
+  <text x="72" y="78" class="title">SmartStudy database schema</text>
+  <text x="72" y="112" class="subtitle">MongoDB collections · Mongoose validation · ObjectId references</text>
+  <g>
+    <rect x="72" y="138" width="1756" height="42" rx="12" fill="#fff" stroke="#dce4e2"/>
+    <rect x="90" y="149" width="74" height="21" rx="10" class="badge"/>
+    <text x="127" y="164" text-anchor="middle" class="badge-text">PK</text>
+    <text x="177" y="165" class="legend">Primary key</text>
+    <rect x="296" y="149" width="74" height="21" rx="10" class="badge"/>
+    <text x="333" y="164" text-anchor="middle" class="badge-text">FK</text>
+    <text x="383" y="165" class="legend">ObjectId reference</text>
+    <rect x="551" y="149" width="74" height="21" rx="10" class="badge"/>
+    <text x="588" y="164" text-anchor="middle" class="badge-text">UK</text>
+    <text x="638" y="165" class="legend">Unique field / index</text>
+    <text x="950" y="165" class="legend">All collections include createdAt and updatedAt timestamps.</text>
+  </g>
+  <g>
+    <rect x="72" y="228" width="520" height="390" rx="16" class="card"/>
+    <path d="M88 228h488a16 16 0 0 1 16 16v62H72v-62a16 16 0 0 1 16-16z" class="head"/>
+    <text x="100" y="270" class="entity">Student</text><text x="100" y="292" class="collection">students</text>
+    <rect x="493" y="248" width="68" height="25" rx="12" fill="#fff" opacity=".16"/><text x="527" y="266" text-anchor="middle" class="key">ACCOUNT</text>
+    <text x="100" y="337" class="field">_id: ObjectId</text><text x="505" y="337" class="key" fill="#426b5d">PK</text>
+    <line x1="96" y1="352" x2="568" y2="352" class="field-line"/>
+    <text x="100" y="380" class="field">name: String (required, max 100)</text>
+    <line x1="96" y1="395" x2="568" y2="395" class="field-line"/>
+    <text x="100" y="423" class="field">email: String (lowercase, unique)</text><text x="528" y="423" class="key" fill="#426b5d">UK</text>
+    <line x1="96" y1="438" x2="568" y2="438" class="field-line"/>
+    <text x="100" y="466" class="field">passwordHash: String</text>
+    <line x1="96" y1="481" x2="568" y2="481" class="field-line"/>
+    <text x="100" y="509" class="field">role: student | admin</text>
+    <line x1="96" y1="524" x2="568" y2="524" class="field-line"/>
+    <text x="100" y="552" class="field">studentId: String (optional)</text>
+    <text x="100" y="586" class="field" fill="#728095">timestamps: createdAt, updatedAt</text>
+  </g>
+  <g>
+    <rect x="720" y="228" width="520" height="390" rx="16" class="card"/>
+    <path d="M736 228h488a16 16 0 0 1 16 16v62H720v-62a16 16 0 0 1 16-16z" class="head-green"/>
+    <text x="748" y="270" class="entity">Course</text><text x="748" y="292" class="collection">courses</text>
+    <text x="748" y="337" class="field">_id: ObjectId</text><text x="1130" y="337" class="key" fill="#426b5d">PK</text>
+    <line x1="744" y1="352" x2="1216" y2="352" class="field-line"/>
+    <text x="748" y="380" class="field">code: String (uppercase)</text>
+    <line x1="744" y1="395" x2="1216" y2="395" class="field-line"/>
+    <text x="748" y="423" class="field">name: String (required)</text>
+    <line x1="744" y1="438" x2="1216" y2="438" class="field-line"/>
+    <text x="748" y="466" class="field">supervisor: String</text>
+    <line x1="744" y1="481" x2="1216" y2="481" class="field-line"/>
+    <text x="748" y="509" class="field">students: [ObjectId]</text><text x="1130" y="509" class="key" fill="#426b5d">FK</text>
+    <line x1="744" y1="524" x2="1216" y2="524" class="field-line"/>
+    <text x="748" y="552" class="field">createdBy: ObjectId</text><text x="1130" y="552" class="key" fill="#426b5d">FK</text>
+    <text x="748" y="586" class="field" fill="#728095">unique index: (code, createdBy)</text>
+  </g>
+  <g>
+    <rect x="1360" y="228" width="468" height="495" rx="16" class="card"/>
+    <path d="M1376 228h436a16 16 0 0 1 16 16v62h-468v-62a16 16 0 0 1 16-16z" class="head-gold"/>
+    <text x="1388" y="270" class="entity">Assignment</text><text x="1388" y="292" class="collection">assignments</text>
+    <text x="1388" y="337" class="field">_id: ObjectId</text><text x="1730" y="337" class="key" fill="#426b5d">PK</text>
+    <line x1="1384" y1="352" x2="1812" y2="352" class="field-line"/>
+    <text x="1388" y="380" class="field">title: String (max 160)</text>
+    <line x1="1384" y1="395" x2="1812" y2="395" class="field-line"/>
+    <text x="1388" y="423" class="field">description: String</text>
+    <line x1="1384" y1="438" x2="1812" y2="438" class="field-line"/>
+    <text x="1388" y="466" class="field">course: ObjectId</text><text x="1730" y="466" class="key" fill="#426b5d">FK</text>
+    <line x1="1384" y1="481" x2="1812" y2="481" class="field-line"/>
+    <text x="1388" y="509" class="field">student: ObjectId</text><text x="1730" y="509" class="key" fill="#426b5d">FK</text>
+    <line x1="1384" y1="524" x2="1812" y2="524" class="field-line"/>
+    <text x="1388" y="552" class="field">createdBy: ObjectId</text><text x="1730" y="552" class="key" fill="#426b5d">FK</text>
+    <line x1="1384" y1="567" x2="1812" y2="567" class="field-line"/>
+    <text x="1388" y="595" class="field">deadline: Date</text>
+    <line x1="1384" y1="610" x2="1812" y2="610" class="field-line"/>
+    <text x="1388" y="638" class="field">priority · status · progress (0–100)</text>
+    <text x="1388" y="682" class="field" fill="#728095">index: (student, deadline)</text>
+  </g>
+  <g>
+    <rect x="274" y="820" width="600" height="420" rx="16" class="card"/>
+    <path d="M290 820h568a16 16 0 0 1 16 16v62H274v-62a16 16 0 0 1 16-16z" class="head-blue"/>
+    <text x="302" y="862" class="entity">Submission</text><text x="302" y="884" class="collection">submissions</text>
+    <text x="302" y="930" class="field">_id: ObjectId</text><text x="760" y="930" class="key" fill="#426b5d">PK</text>
+    <line x1="298" y1="945" x2="850" y2="945" class="field-line"/>
+    <text x="302" y="973" class="field">assignment: ObjectId</text><text x="760" y="973" class="key" fill="#426b5d">FK</text>
+    <line x1="298" y1="988" x2="850" y2="988" class="field-line"/>
+    <text x="302" y="1016" class="field">student: ObjectId</text><text x="760" y="1016" class="key" fill="#426b5d">FK</text>
+    <line x1="298" y1="1031" x2="850" y2="1031" class="field-line"/>
+    <text x="302" y="1059" class="field">fileUrl: String (max 2048)</text>
+    <line x1="298" y1="1074" x2="850" y2="1074" class="field-line"/>
+    <text x="302" y="1102" class="field">text: String (max 20,000)</text>
+    <line x1="298" y1="1117" x2="850" y2="1117" class="field-line"/>
+    <text x="302" y="1145" class="field">submittedAt · feedback · grade (0–100)</text>
+    <text x="302" y="1205" class="field" fill="#728095">unique index: (assignment, student)</text>
+  </g>
+  <g>
+    <rect x="1026" y="820" width="600" height="420" rx="16" class="card"/>
+    <path d="M1042 820h568a16 16 0 0 1 16 16v62h-600v-62a16 16 0 0 1 16-16z" class="head-green"/>
+    <text x="1054" y="862" class="entity">Reminder</text><text x="1054" y="884" class="collection">reminders</text>
+    <text x="1054" y="930" class="field">_id: ObjectId</text><text x="1512" y="930" class="key" fill="#426b5d">PK</text>
+    <line x1="1050" y1="945" x2="1602" y2="945" class="field-line"/>
+    <text x="1054" y="973" class="field">assignment: ObjectId</text><text x="1512" y="973" class="key" fill="#426b5d">FK</text>
+    <line x1="1050" y1="988" x2="1602" y2="988" class="field-line"/>
+    <text x="1054" y="1016" class="field">student: ObjectId</text><text x="1512" y="1016" class="key" fill="#426b5d">FK</text>
+    <line x1="1050" y1="1031" x2="1602" y2="1031" class="field-line"/>
+    <text x="1054" y="1059" class="field">remindAt: Date</text>
+    <line x1="1050" y1="1074" x2="1602" y2="1074" class="field-line"/>
+    <text x="1054" y="1102" class="field">channel: in-app · message: String</text>
+    <line x1="1050" y1="1117" x2="1602" y2="1117" class="field-line"/>
+    <text x="1054" y="1145" class="field">sentAt: Date · readAt: Date</text>
+    <text x="1054" y="1205" class="field" fill="#728095">index: (remindAt, sentAt)</text>
+  </g>
+  <path d="M592 398H720" class="rel"/>
+  <text x="654" y="385" text-anchor="middle" class="rel-label">creates / enrolls</text>
+  <path d="M592 492H650Q680 492 720 525" class="rel"/>
+  <text x="645" y="476" text-anchor="middle" class="rel-label">owns</text>
+  <path d="M1240 512H1360" class="rel"/>
+  <text x="1300" y="499" text-anchor="middle" class="rel-label">contains</text>
+  <path d="M1510 723V780Q1510 800 1484 820" class="rel"/>
+  <text x="1530" y="778" class="rel-label">triggers</text>
+  <path d="M1430 723Q1290 755 1130 790T760 820" class="rel"/>
+  <text x="1160" y="779" text-anchor="middle" class="rel-label">receives</text>
+  <path d="M350 618Q280 700 350 820" class="rel"/>
+  <text x="235" y="727" class="rel-label">submits</text>
+  <path d="M480 618Q560 700 570 820" class="rel"/>
+  <text x="532" y="714" class="rel-label">has submission</text>
+  <path d="M500 618Q770 745 1190 820" class="rel"/>
+  <text x="810" y="744" class="rel-label">owns reminders</text>
+  <text x="72" y="1320" class="subtitle">Reference fields store ObjectIds; validation and indexes are defined by the Mongoose models.</text>
+</svg>
